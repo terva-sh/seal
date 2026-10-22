@@ -1,0 +1,59 @@
+# CI for seal on GitHub. It runs vet, gofmt, the tests and the
+# cross-builds, each with CGO_ENABLED=0, as every build of this module is.
+# The commands are inline because the runner does not install just; the
+# justfile has the same checks under `just ci`.
+#
+# Go follows go.mod's line, 1.27.x.
+
+name: ci
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [release]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CGO_ENABLED: "0"
+
+jobs:
+  test:
+    name: Vet, test and cross-build
+    if: github.server_url == 'https://github.com'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.27.x"
+          cache: true
+
+      - name: go vet
+        run: go vet ./...
+
+      - name: gofmt
+        run: |
+          diff=$(gofmt -l .)
+          if [ -n "$diff" ]; then
+            echo "gofmt issues in:"
+            echo "$diff"
+            exit 1
+          fi
+
+      - name: go test
+        run: go test ./...
+
+      - name: Cross-build
+        run: |
+          for t in linux/amd64 linux/arm64 darwin/arm64 windows/amd64; do
+            echo "== $t"
+            GOOS=${t%/*} GOARCH=${t#*/} go build ./...
+          done
