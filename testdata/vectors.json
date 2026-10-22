@@ -1,0 +1,260 @@
+{
+  "comment": "Sealed-field test vectors. Every field was written by terva's packages/secrets (see generator). The identities are derived from the public seeds below: the X25519 scalar is SHA-256 of the seed, Bech32-encoded as an AGE-SECRET-KEY-1 line. They protect nothing. expect is this package's result; terva is what terva's DecodeField returned.",
+  "generator": "terva.sh/terva/packages/secrets at terva commit bef71fa165d2173a95113b7575300b0f3a5a3876",
+  "seeds": {
+    "A": "terva.sh/seal test vector identity A",
+    "B": "terva.sh/seal test vector identity B"
+  },
+  "recipients": {
+    "A": "age1yseseyq5m8c3dpvmlcjuxcp7uwpd0lrw3ljhct9envzavn64035qr4ueq3",
+    "B": "age1fhef2etm3ak2gjy3sld7unektnhc62azuf82ysqesf6r8myqk9yqf4hywg"
+  },
+  "vectors": [
+    {
+      "name": "basic",
+      "comment": "One value, one recipient, opened where it was sealed.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBCTU5tNFNoT2tSUmQ2RFordmFZYU15VU9xZ1VNd3F5VVh4Zjdic0lmSlZRClRkSWFiSzFvOW96RUdJWitrME1nYjU3RFkrVFUxc3VWMXRiSExIT1EwQ28KLS0tIFVvbURZM3gyRGV5ZkRqVFc1aUlNTTVkWTA3MnlIMkJJdTZ0WUsxVE96Z0UKcCv0s3yjt8EYOHvLCcOVOoROhEsVrs87LQWcTqTdRj5aOZ0cJODotknyJgcffFh06wmR7bLVTr+U6x3OhuDP2KO+81/CXxSRRxYyNCxmGfz19jw6GyNo",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "hunter2",
+      "seal_binding": "config|extensions.weather.api_key",
+      "seal_value": "hunter2",
+      "plaintext": "{\"b\":\"config|extensions.weather.api_key\",\"v\":\"hunter2\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "empty-value",
+      "comment": "An empty value seals and opens; only the binding must be non-empty.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBvMkxmL1lMTTZJR1FtdldVTlMxK2k2ajRpSnAxOVN4RElyelA3QklydWtVCnhwWm5XTTJ4SWFPQll6cVQ5Qk9DaDBUK2lid1JGNXQ4NzRXWWN2QmUxR1kKLS0tIEZla2h3dGF5cmZMT0l6aTI4QkZQRjhtcml1OEtScVlKam95WmcvMkRza0kK98VJaSOk3xLW6iTvMdJ4/JP6DlqF06FYRWzCnjOsPhP/Y7yiwNRPSeG/N41lifwXImhigqzLR12tMyP9BCv4OmxTM1RPji4c4VgCpyaV4KA=",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "",
+      "seal_binding": "config|extensions.weather.api_key",
+      "seal_value": "",
+      "plaintext": "{\"b\":\"config|extensions.weather.api_key\",\"v\":\"\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "unicode-and-escapes",
+      "comment": "Non-ASCII text, characters Go's JSON encoder escapes (< > & U+2028), quotes and backslashes.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBHUE1remdMYnR6ZXl3Zkl0RDhlQ2VhS0dHMjN4TFc1Z0hpZVhMOWk4K3dvCkZCeUlGOXJzTTcxQlpFYi9sMmZrbUUwWUM3S0VZaE02Yi9TNUNsdS95ZGsKLS0tIFhKd2NDTzV4UnY0NkdMM0F3VjVwTFdLbld4cnFhMVZGWTZkUThVcG50SDgKvDEt4bxTgOX3YabponX7Fj1rfOArjE5GTvMoSZtfcw4HrRJMxjlRCfMyG6KhUqaoAlJ8VnZtmXWuoC5THjKbKmSBx9tOsBw4/65Kk3vNibueGj1nO32Lr0dNS61rBCWFHExEkj3p14mh9wz23rpUKOvxDZQd8l6GFw==",
+      "open_at": "airut|discord.token",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "pässwörd <&> \"quoted\" \\ \u2028 🔑",
+      "seal_binding": "airut|discord.token",
+      "seal_value": "pässwörd <&> \"quoted\" \\ \u2028 🔑",
+      "plaintext": "{\"b\":\"airut|discord.token\",\"v\":\"pässwörd \\u003c\\u0026\\u003e \\\"quoted\\\" \\\\ \\u2028 🔑\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "binding-with-separators",
+      "comment": "A binding is opaque: pipes, dots, slashes and non-ASCII are compared byte for byte.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB3STlINis3Z2VKaDFHM2IxdUZ0QzZGK0puK0duNnp4OUNtVnZwZzhKWUdFCldTVEFVM2NRYTE2SytsVzkwQ0JFMjVsa05uNnlrKzhjbGNBc3pkTGVzSFkKLS0tIGZoMElTMnhwMkh2bVlkZU4zRnYxdFRhZ0RQTS9FTzNuVFpPekFweDQ3azAKte2TE0gQ8NuI0oJRztYxqaevOyxj8HY2PMmhQSgQHNMMY+Bciw8dFUYW5O/GTXBLF//y7qTs22WErL3bDbWOZwi2oXS3yCPfLfJOMJE5NzWDQF9hHa6tW3g3",
+      "open_at": "conn:discord-ext|/auth/bot_token|x.é",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "sk-123",
+      "seal_binding": "conn:discord-ext|/auth/bot_token|x.é",
+      "seal_value": "sk-123",
+      "plaintext": "{\"b\":\"conn:discord-ext|/auth/bot_token|x.é\",\"v\":\"sk-123\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "long-value",
+      "comment": "A value longer than one age chunk would need is not special, but a long one is worth one vector.",
+      "field": "enc:age:v2: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",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "seal_binding": "config|extensions.weather.api_key",
+      "seal_value": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "plaintext": "{\"b\":\"config|extensions.weather.api_key\",\"v\":\"0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "two-recipients",
+      "comment": "Sealed to A and B; B alone opens it.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBVZTNlTlpNdXAwWnU5N2IxUXlTLzUyNFlCcGV5R1pobUtVL0dmei9DalZRCkVOcXF6UC9Ha25RMzRyTWRzSVE2bDRHSE9aV3NQdEwyc29mNmp5T2R4ajQKLT4gWDI1NTE5IEJpTUpUT2pFTGM3N0Z2Y1dTKytZZlRIa2tZSWI0OUlNeTk3UmQ3ZENyZ2cKdVpCUzFsTW9QOVVuaUJWR0o4bXlPaG1DcExqR1VMR08wMjh0VVVTQUpYUQotLS0geGVPZUovenZxSHBmeGJ2SFFjVks2QmdUbGJZV3l2NXgzeDFQbjFSblVZZwpc+iG75J9RCQBrufgcXzDmNXgxyCsfkxbzblztw0uu5MUZAkVgGpOiDZZzSEAq5dpNts7WE0AmSK6JPF2SEGyawsvwYvnkFkDLPEcpgjRgBVNPrztdNw==",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "B"
+      ],
+      "expect": "ok",
+      "value": "shared",
+      "seal_binding": "config|extensions.weather.api_key",
+      "seal_value": "shared",
+      "plaintext": "{\"b\":\"config|extensions.weather.api_key\",\"v\":\"shared\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "identity-ring",
+      "comment": "Sealed to B; opened with A and B offered, as a host does with a retired key.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyS2EwN0xieG0wbWhGRzFDNzZBZGlkRkpwWXlQU1p0SzErMk52Vnl0U0dNCjFHaXZJSG1KK3E4bWtjRm14K2pHYUJ5cXZ1ZnJwTHJYT012RVFVeWV1b1EKLS0tIGxRVmJ4dS91VkdqTFAwcEQ5cjVCemE5L1RZQkxwQ2NQWUdrSEVHM2NsSGcK93GK5CHXnZGs+lNt3V2Jz/QS6Aessh+q+gmurlql3iM6V7wYbsUwrxx6tPGYSVHXGJyIyusJYQOsnGgBJZ6AC3l/uxGJVf85u9vyQR8XXVWdQzb8geYD",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A",
+        "B"
+      ],
+      "expect": "ok",
+      "value": "rotated",
+      "seal_binding": "config|extensions.weather.api_key",
+      "seal_value": "rotated",
+      "plaintext": "{\"b\":\"config|extensions.weather.api_key\",\"v\":\"rotated\"}",
+      "terva": "ok"
+    },
+    {
+      "name": "moved",
+      "comment": "Sealed for one location and found at another: refused although the key fits.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwRDdkd0kxdGg1VjJ2QzNwVGd5OHlYaU9UZWkySE9KSUhpV2VBVWNpY1dVCjNuemt2RVN5UkhjajhLZGhCQ0ZmY25PdmtvSkhXM0ZYZWs4aWVXZTAwQWMKLS0tIGRmcENhdUl2QXU2cmw5Y1dSYkpHMEVsVnFuWXM0T2FrT1g3dnUzMkZicmsKW0hypf4/RJQ9yi7s4H7082GdeaYOdE9EGoEOwrao5AlOBDSmTc91LraACH1QRO6zsHYFghPSzkk6Mp2bfLdDM0M/rFaOPDsfa9NGx376RrMesS3h9Uct88c=",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "mismatch",
+      "seal_binding": "config|image.backends.local.api_key",
+      "seal_value": "hunter2",
+      "plaintext": "{\"b\":\"config|image.backends.local.api_key\",\"v\":\"hunter2\"}",
+      "terva": "error"
+    },
+    {
+      "name": "wrong-key",
+      "comment": "Sealed to B only; A cannot open it.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBpcWVnZ29iQTZjcTNHaGJkWnBhTlFMNURkTUJBWjFXSHJCLzQ3dnd5QUh3Ci94bXRRaFlVRmlTYXF0WEpYR3UrKzJ6UE1YSnM3NGdMRHJCcE1YTmNTU0EKLS0tIGZPeXd5WlBXMHhEWXJwWTRtcjZvczd0c1VTMHg5S3M0VDBPa1JGWm9YS3cKn+8m8bkNPpiCW+Lv6Fb7aZK3pqjSmV34fe0mET0Ld9lDUBtsRhHv/h3LYsS/Lcnl1Tsxm5bX1+nTop4XU32flvZ4tawxeDpbVh79T5nYSYRV9RWG6kCF",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "no_identity",
+      "seal_binding": "config|extensions.weather.api_key",
+      "seal_value": "hunter2",
+      "plaintext": "{\"b\":\"config|extensions.weather.api_key\",\"v\":\"hunter2\"}",
+      "terva": "error"
+    },
+    {
+      "name": "legacy-v1",
+      "comment": "terva's unbound v1 encoding. It cannot prove where it belongs, so it does not open.",
+      "field": "enc:age:v1:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBpOTdsbEhTSHV2bEFjY2w0UGlOdmlERjNxWE5QelRXcHdEZ1NTSjRhd3p3CjBQMzJWU2lnM2JqTjhSMHE1UWRwcjRXcTl2Nzc4bXFNcHJpckFXSDFQbzAKLS0tIEZYRWFHb0tBcU1uTGRxVTJZRGdWSjNoQ1ZqTUd6SkEzL0t1MHg4UFB5VFEKzpL/y/lHSn90hcOsoSQ/IZ420fKRLtZ9UKHeVcauv55lUMbviIzO",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "version",
+      "terva": "error"
+    },
+    {
+      "name": "plaintext",
+      "comment": "A string with no prefix is not sealed; the caller decides what it means.",
+      "field": "hunter2",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "not_sealed",
+      "terva": "error"
+    },
+    {
+      "name": "bad-base64",
+      "comment": "The prefix followed by text that is not standard base64.",
+      "field": "enc:age:v2:not*base64",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "malformed",
+      "terva": "error"
+    },
+    {
+      "name": "empty-binding",
+      "comment": "A plaintext whose binding is empty. Seal never writes one.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBmTlozOEFLQXZoajJvNDFEN0U2V1g3R0J4Smp5U3FEK0pWT3NWU1FSVURVCkRweUdVRnlrUWdiSDlJNENUZVBhbjVlS1ZQcGEybXgwYXFuZU9ZcC9UbmsKLS0tIFpvb0tDblZBbmFqbVQ2SEh1MElNMjQ0WER4WS9sbVZldWpPeTBWYWJIVkUKkPyAs0sLF3bkr2yclCERMnSQNWcildku3qfYp9sp/QeH9ULjmXAiWidJkRbom/yI",
+      "open_at": "",
+      "identities": [
+        "A"
+      ],
+      "expect": "malformed",
+      "terva": "error"
+    },
+    {
+      "name": "not-json",
+      "comment": "A v2 field whose plaintext is the bare value, as v1 sealed it.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyTUlnT1pHQWdGWnB1THFPUE5ycnRNM0JLalZIb0JZc3NLUzFpWEJrZDFvCllpUDlNelo3S1p6aTVvTjlxYWtLTjEyTTFYM1QxRi9pQkpJYW5DSlYwTlEKLS0tIGZxblF1Wmt0NGxhc1VLZ3lCUm5KZ0hURTlHWG5kZnRJOXdNRVo5UW9palEKdOppFq9wRbl7EPwbN83cFdN0Sf92A0PMFZadvJx+gZrf7xzCGzWE",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "malformed",
+      "terva": "error"
+    },
+    {
+      "name": "extra-member",
+      "comment": "A third member. terva's reader ignores it; this package refuses it, because the shape is closed and a new member means a new version.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGRDZ5eHdTeEJPTGpjZVc4ZTZiMnoxOHpSUVNUVXpVcDRkd1hzYUFURUJrCjNlVFhWQ2gwUGRwb0pyV2tTTlVsLzhkd1Y1TEhGMWpTRkVKeXprbUtacXcKLS0tIHczZ0RxeUJtMzgra042aWh6RlRQT2FqalJpeXlyRW9iRk40ckxISFcxTlUKYVnU+xRNXLTNef3Khf7ukpVf+UGdThzzs/a3QfpffP04irUCZ+afkEbmSWBF7bbH3waIK7XqnAMI3o2cIIswhuS1bJJBdF4PSLf2t/sGmaFcgNN8/eO/",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "malformed",
+      "terva": "ok:\"x\""
+    },
+    {
+      "name": "missing-value",
+      "comment": "No \"v\" member. terva's reader opens it as the empty string; this package refuses it.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB5Wm1PNVZzK0R0NVE2c1l1RWQycVlkckZNTnR6U2p4ZDN1UXNOUWZOdUU4ClFEN2MzZHFsYXIrNk9QWnpwZU0rVkE5WitxT3QxV0lqNmp3bGdCY2VxakUKLS0tIEpLWmxtRlRsakpZM0NKNTJRK1RoblUxdmRpR29Ub0I2YkhvN013OFJSMFEKgLP2RCp9mcjWuyBUgS5FNeqnluxh4N5/6SjdoveRk2Ny5McDyCCaQXsp4KB3RKmx/v4JnQvE5OODjH5vnYt0AMyG9xp4G72EhQ==",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "malformed",
+      "terva": "ok:\"\""
+    },
+    {
+      "name": "non-string-value",
+      "comment": "A \"v\" that is a number, not a string.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAyeHJhcDhyQUhRTEVRQUtTRXZMUktRWEVJZUgwOUd6RmVVRW91VE1LS3owClJXSlV3MXd3ODFXTXBoSkhPWUdLQTJDQUJHUlRsam9DUnpyM2pkL1NLRVUKLS0tIDRseUV0bXpqWWJUS3NEV0MxQUVoYktsaFhOcVhkR2ZyeUxmUVUrL1Q5YTAKeHCZAnnh1wgYc0NEh4luTfalTzJRx8dlnkftALfsrxxKIOTYn5kKckLO1m5jUqKVcPTToz5BbINY5JGQIQVoWff7xMOG4PUV5XExK7iQf6U=",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "malformed",
+      "terva": "error"
+    },
+    {
+      "name": "member-order",
+      "comment": "Members in the other order, compact and with whitespace, as another JSON writer may emit them.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBvbDZTMkMrMGNjU3JkWCtUbVcvSTFFVklXTkFxdGxCbU96NTlSV1V4MEFJCi9aQm5QU2d6RU4vaVIybVRRZ2VDb1U3V05YS0greGhnMmhsdXJYbjgySVkKLS0tIEFrL2FUREk2K1hEekhKMUpzaEErSC93OW1Qdlh3MEdkeXdXT3JTY0F5RzgKFWU2475COaunx53+A1QRIdsp22Wu+jnZ56b3m7rQhE9FXxH14btJpsZDBlJDHOjy9Sh/PdVvBn9nsw9nznGKo7Y9NzMIMi9O10/XxO9cssyvqfx8fQmmtZYTEWSAbIxM",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "hunter2",
+      "terva": "ok"
+    },
+    {
+      "name": "unescaped-html",
+      "comment": "A writer that does not escape < > & (Go's encoder does, others do not). Both are valid JSON.",
+      "field": "enc:age:v2:YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBTMXEwRVUzdzA2TWtyb2lROXNvUTk2U01IbEVKbWJGZjhPNHBwMGZjekFZCjljZkd0ZHBQOUl6SUl2SXlRdzY2WmlJcEFsTGQ0RHB0Vm8rYVlBR0djWDAKLS0tIEI4NURQMGEyY2k0STVyVklSc3BUTExHdExXV3IvalBPbjhhMHBBWXJBTlUKHi661Q50A6BxTE290lrO++tSIEiWivmi3gsxDyMN1iCPOL+lgeu++oUrGnLgpIhh2sifY9zQhCtlR22Drc0ZJ2oWwgf7VbNRh9diixvhvo/kQEM=",
+      "open_at": "config|extensions.weather.api_key",
+      "identities": [
+        "A"
+      ],
+      "expect": "ok",
+      "value": "<&>",
+      "terva": "ok"
+    }
+  ]
+}
